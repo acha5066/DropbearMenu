@@ -1,7 +1,7 @@
 # DropbearMenu
 A simple Javascript Dropdown menu
 
-![Image of a Dropbear](https://en.wikipedia.org/wiki/Drop_bear#/media/File:Dropbear.jpg)
+![Image of a Dropbear](https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Dropbear.jpg/1200px-Dropbear.jpg)
 
 ## Dependencies
 
