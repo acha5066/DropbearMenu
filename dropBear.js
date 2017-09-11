@@ -1,4 +1,4 @@
-var DropBear = (function() {
+exports.DropBear = function() {
 
     /**
      * Compare the browser width to breakpoint
@@ -84,4 +84,4 @@ var DropBear = (function() {
         }
     }
 
-})();
+};
