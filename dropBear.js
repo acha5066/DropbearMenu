@@ -6,7 +6,7 @@ var DropBear = (function() {
      * @param breakpoint
      */
     var comparison = function($selection, breakpoint) {
-        if ($(window).width() < breakpoint) {
+        if (Math.max(document.documentElement.clientWidth, window.innerWidth || 0) < breakpoint) {
             create($selection);
         } else {
             destroy($selection);
@@ -18,13 +18,27 @@ var DropBear = (function() {
      * @param $selection
      */
     var create = function($selection) {
-        var $ddToggle = $('#dd-toggle');
-        if ($ddToggle.length) {
+        var $ddToggle = document.getElementById('dd-toggle');
+        if (idExists($ddToggle)) {
             return;
         }
-        $selection.before('<span id="dd-toggle">Menu</span>');
-        $selection.addClass('is-hidden');
+        var span = document.createElement('span');
+            span.innerHTML = 'Menu';
+            span.id = 'dd-toggle';
+        $selection.parentNode.insertBefore(span, $selection);
+        $selection.classList.add('is-hidden');
         toggle($selection);
+    };
+
+    /**
+     * Convenience method to check for existing elements by Id.
+     * @param elementId
+     * @returns {boolean}
+     */
+    var idExists = function(elementId) {
+        if (typeof elementId !== 'undefined' && elementId !== null) {
+            return true;
+        }
     };
 
     /**
@@ -32,13 +46,12 @@ var DropBear = (function() {
      * @param $selection
      */
     var destroy = function($selection) {
-        var $ddToggle = $('#dd-toggle');
-        if ($ddToggle.length) {
-            $ddToggle.remove();
+        var $ddToggle = document.getElementById('dd-toggle');
+        if (idExists($ddToggle)) {
+            $ddToggle.parentNode.removeChild(document.getElementById('dd-toggle'));
         }
-        console.log($selection);
-        if ($selection.hasClass('is-hidden')) {
-            $selection.removeClass('is-hidden');
+        if ($selection.classList.contains('is-hidden')) {
+            $selection.classList.remove('is-hidden');
         }
     };
 
@@ -47,23 +60,27 @@ var DropBear = (function() {
      * @param $selection
      */
     var toggle = function($selection) {
-        var $ddToggle = $('#dd-toggle');
-        $ddToggle.click(function () {
-            if ($selection.hasClass('is-hidden')) {
-                $selection.removeClass('is-hidden');
+        var $ddToggle = document.getElementById('dd-toggle');
+        $ddToggle.onclick = function () {
+            if ($selection.classList.contains('is-hidden')) {
+                $selection.classList.remove('is-hidden');
             }
             else {
-                $selection.addClass('is-hidden');
+                $selection.classList.add('is-hidden');
             }
-        });
+        };
     };
 
     return {
         construct: function(options) {
+            // If selection is jQuery object convert into regular DOM element
+            if (options.$selection.hasOwnProperty(0)) {
+                options.$selection = options.$selection[0];
+            }
             comparison(options.$selection, options.breakpoint);
-            $(window).resize(function() {
+            window.onresize = function() {
                 comparison(options.$selection, options.breakpoint);
-            });
+            };
         }
     }
 
