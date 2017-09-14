@@ -1,5 +1,8 @@
 var DropBear = (function() {
 
+    var toggleId = 'dropbear';
+    var hiddenClass = 'dropbear__menu--is-hiding';
+
     /**
      * Compare the browser width to breakpoint
      * @param $selection
@@ -18,15 +21,15 @@ var DropBear = (function() {
      * @param $selection
      */
     var create = function($selection) {
-        var $ddToggle = document.getElementById('dd-toggle');
+        var $ddToggle = document.getElementById(toggleId);
         if (idExists($ddToggle)) {
             return;
         }
-        var span = document.createElement('span');
-            span.innerHTML = 'Menu';
-            span.id = 'dd-toggle';
+        var span = document.createElement(options.toggleElement);
+            span.innerHTML = options.toggleText;
+            span.id = toggleId;
         $selection.parentNode.insertBefore(span, $selection);
-        $selection.classList.add('is-hidden');
+        $selection.classList.add(hiddenClass);
         toggle($selection);
     };
 
@@ -46,12 +49,12 @@ var DropBear = (function() {
      * @param $selection
      */
     var destroy = function($selection) {
-        var $ddToggle = document.getElementById('dd-toggle');
+        var $ddToggle = document.getElementById(toggleId);
         if (idExists($ddToggle)) {
-            $ddToggle.parentNode.removeChild(document.getElementById('dd-toggle'));
+            $ddToggle.parentNode.removeChild(document.getElementById(toggleId));
         }
-        if ($selection.classList.contains('is-hidden')) {
-            $selection.classList.remove('is-hidden');
+        if ($selection.classList.contains(hiddenClass)) {
+            $selection.classList.remove(hiddenClass);
         }
     };
 
@@ -60,13 +63,13 @@ var DropBear = (function() {
      * @param $selection
      */
     var toggle = function($selection) {
-        var $ddToggle = document.getElementById('dd-toggle');
+        var $ddToggle = document.getElementById(toggleId);
         $ddToggle.onclick = function () {
-            if ($selection.classList.contains('is-hidden')) {
-                $selection.classList.remove('is-hidden');
+            if ($selection.classList.contains(hiddenClass)) {
+                $selection.classList.remove(hiddenClass);
             }
             else {
-                $selection.classList.add('is-hidden');
+                $selection.classList.add(hiddenClass);
             }
         };
     };

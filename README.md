@@ -20,7 +20,9 @@ or a regular DOM element.
 
 var options = {
     $selection: $('#some-selection'),
-    breakpoint: 768
+    breakpoint: 768,
+    toggleText: 'Menu',
+    toggleElement: 'span'
 };
 DropBear.construct(options);
 
